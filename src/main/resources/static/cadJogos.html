@@ -1,60 +1,85 @@
 <!DOCTYPE html> 
 <html> 
-    <head> 
-        <meta charset="utf-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1"> 
-        <title>Cadastro de jogos</title> 
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
-    </head> 
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Cadastro de Jogo</title> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head> 
 
-    <style>
-        .titulo{
-            border: black solid 1px;
-            font-size:small;
-            background-color:dodgerblue;
-        }
+<style>
+    .titulo {
+        border: black solid 1px;
+        font-size: small;
+        background-color: dodgerblue;
+    }
+    .btn1 {
+        color: black;
+        background-color: cornflowerblue;
+    }
+    .btn2 {
+        color: black;
+        background-color: dodgerblue;
+    }
+</style>
 
-        .btn1{
-            color: black;
-            background-color:cornflowerblue;
-        }
+<body>
+    <div class="titulo text-center">
+        <h1>Dados do Jogo</h1>
+    </div>
 
-        .btn2{
-            color: black;
-            background-color:dodgerblue;
-        }
-    </style>
+    <div class="container">
+        <form id="jogoForm" class="formulario">
+            <div class="mb-3">
+                <label for="txtNome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="txtNome">
+            </div>
+            <div class="mb-3">
+                <label for="txtValor" class="form-label">Valor</label>
+                <input type="text" class="form-control" id="txtValor">
+            </div>
+            <div class="mb-3">
+                <label for="txtGenero" class="form-label">Gênero</label>
+                <input type="text" class="form-control" id="txtGenero">
+            </div>
+            <div class="mb-3">
+                <label for="txtClasEtaria" class="form-label">Classificação Etária</label>
+                <input type="text" class="form-control" id="txtClasEtaria">
+            </div>
+            <div class="mb-3 text-center">
+                <button type="button" id="enviarJogoBtn" class="btn2 btn btn-primary">ENVIAR</button>
+            </div>
+        </form>
+    </div>
 
-    <body>
-        <div class="titulo text-center">
-            <h1>Dados do jogo</h1>
-        </div>
-            
-        </div>
-
-        <div class="container">
-            <form class="formulario" method="post" action="#">
-                <div class="mb-3">
-                    <label for="txtNome" class="form-label" id="lblNome">Nome</label>
-                    <input type="text" class="form-control" id="txtNome">
-                </div>
-                <div class="mb-3">
-                    <label for="txtValor" class="form-label" id="lblValor">Valor</label>
-                    <input type="text" class="form-control" id="txtValor">
-                </div>
-                <div class="mb-3">
-                    <label for="txtGenero" class="form-label" id="lblGenero">Gênero</label>
-                    <input type="text" class="form-control" id="txtGenero">
-                </div>
-                <div class="mb-3">
-                    <label for="txtClasEtaria" class="form-label" id="lblClasEtaria">Classificação Etária</label>
-                    <input type="text" class="form-control" id="txtClasEtaria">
-                </div>
-                <div class="mb-3 text-center">
-                    <input type="submit" class="btn1 btn btn-primary" value="LIMPAR">
-                    <input type="submit" class="btn2 btn btn-primary" value="ENVIAR">
-                </div>
-            </form>
-        </div>
-    </body>
-    </html>
+    <script>
+        $(document).ready(function () {
+            $("#enviarJogoBtn").click(function (e) {
+                e.preventDefault();
+                
+                let jogo = {
+                    nomeJogo: $("#txtNome").val(),
+                    valorJogo: parseFloat($("#txtValor").val()),
+                    generoJogo: $("#txtGenero").val(),
+                    clasEtariaJogo: $("#txtClasEtaria").val()
+                };
+                
+                $.ajax({
+                    url: "/jogo/cadastrar",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(jogo),
+                    success: function (response) {
+                        alert("Jogo cadastrado com sucesso!");
+                        $("#jogoForm")[0].reset();  // Limpa o formulário
+                    },
+                    error: function () {
+                        alert("Erro ao cadastrar jogo!");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
