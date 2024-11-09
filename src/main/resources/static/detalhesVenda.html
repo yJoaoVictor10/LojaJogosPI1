@@ -1,100 +1,254 @@
-<!DOCTYPE html> 
-<html> 
-    <head> 
-        <meta charset="utf-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1"> 
-        <title>Detalhes da venda</title> 
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
-    </head> 
-
-    <style>
-        .titulo{
-            border: black solid 1px;
-            font-size:small;
-            background-color:dodgerblue;
-        }
-
-        table, th, td {
-            border: 1px solid black;
-            margin-top: 40px;
-        }
-
-        th, td {
-            padding: 30px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        #voltarTela{
-            font-weight: bold;
-            color: dodgerblue;
-        }
-    </style>
-
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Detalhes da Venda</title>
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .titulo {
+                border: black solid 1px;
+                font-size: small;
+                background-color: dodgerblue;
+            }
+            table, th, td {
+                border: 1px solid black;
+                margin-top: 40px;
+            }
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            .btnAtualizar, .btnExcluir {
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+                margin: 5px;
+            }
+            .btnAtualizar {
+                background-color: dodgerblue;
+            }
+            .btnExcluir {
+                background-color: red;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
     <body>
         <div class="titulo text-center">
-            <h1>Detalhes da venda</h1>
+            <h1>Detalhes da Venda - Cliente, Vendedor e Jogo</h1>
         </div>
-        
-            <div class="container">
-                <table id="tabelaCliente" class="table-bordered table-striped" >
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Idade</th>
-                            <th>CPF</th>
-                            <th>Telefone</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                    </tbody>
-                </table>
-            </div>
-        
+        <!-- Tabela de Clientes -->
         <div class="container">
-                <table id="tabelaVendedor" class="table-bordered table-striped" >
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Idade</th>
-                            <th>CPF</th>
-                            <th>Valor da hora</th>
-                            <th>Horas trabalhadas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <h2>Clientes</h2>
+            <table id="tabelaCliente" class="table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Idade</th>
+                        <th>CPF</th>
+                        <th>Telefone</th>
+                        <th>Email</th>
+                        <th>Atualizar</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
 
-                    </tbody>
-                </table>
-            </div>
-        
+        <!-- Tabela de Vendedores -->
         <div class="container">
-                <table id="tabelaJogo" class="table-bordered table-striped" >
-                    <thead>
-                        <tr>
-                           <th>ID</th>
-                            <th>Nome</th>
-                            <th>Valor</th>
-                            <th>Gênero</th>
-                            <th>Classificação etária</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <h2>Vendedores</h2>
+            <table id="tabelaVendedor" class="table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Idade</th>
+                        <th>CPF</th>
+                        <th>Valor da Hora</th>
+                        <th>Horas Trabalhadas</th>
+                        <th>Atualizar</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
 
-                    </tbody>
-                </table>
-            </div>
+        <!-- Tabela de Jogos -->
+        <div class="container">
+            <h2>Jogos</h2>
+            <table id="tabelaJogo" class="table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Valor</th>
+                        <th>Gênero</th>
+                        <th>Classificação Etária</th>
+                        <th>Atualizar</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
 
-<br>
-    <div class="text-center">
-        <a href="#" class="text-decoration-none" id="voltarTela">Voltar à tela inicial</a>
-    </div>
+        <script>
+            // Função para carregar dados de clientes
+            function carregarClientes() {
+                $.ajax({
+                    url: 'http://localhost:8080/cliente/listar',
+                    method: 'GET',
+                    success: function (clientes) {
+                        const tbody = $('#tabelaCliente tbody');
+                        tbody.empty();
+                        clientes.forEach(cliente => {
+                            tbody.append(`
+                                <tr data-id="${cliente.id}">
+                                    <td>${cliente.id}</td>
+                                    <td contenteditable="true">${cliente.nomeCli}</td>
+                                    <td contenteditable="true">${cliente.idadeCli}</td>
+                                    <td contenteditable="true">${cliente.cpfCli}</td>
+                                    <td contenteditable="true">${cliente.telefoneCli}</td>
+                                    <td contenteditable="true">${cliente.emailCli}</td>
+                                    <td><button class="btnAtualizar">Atualizar</button></td>
+                                    <td><button class="btnExcluir">Excluir</button></td>
+                                </tr>
+                            `);
+                        });
+                    },
+                    error: function () {
+                        alert('Erro ao carregar os clientes.');
+                    }
+                });
+            }
+
+            // Função para carregar dados de vendedores
+            function carregarVendedores() {
+                $.ajax({
+                    url: 'http://localhost:8080/vendedor/listar',
+                    method: 'GET',
+                    success: function (vendedores) {
+                        const tbody = $('#tabelaVendedor tbody');
+                        tbody.empty();
+                        vendedores.forEach(vendedor => {
+                            tbody.append(`
+                                <tr data-id="${vendedor.id}">
+                                    <td>${vendedor.id}</td>
+                                    <td contenteditable="true">${vendedor.nomeVend}</td>
+                                    <td contenteditable="true">${vendedor.idadeVend}</td>
+                                    <td contenteditable="true">${vendedor.cpfVend}</td>
+                                    <td contenteditable="true">${vendedor.valorHora}</td>
+                                    <td contenteditable="true">${vendedor.horasTrabalhadas}</td>
+                                    <td><button class="btnAtualizar">Atualizar</button></td>
+                                    <td><button class="btnExcluir">Excluir</button></td>
+                                </tr>
+                            `);
+                        });
+                    },
+                    error: function () {
+                        alert('Erro ao carregar os vendedores.');
+                    }
+                });
+            }
+
+            // Função para carregar dados de jogos
+            function carregarJogos() {
+                $.ajax({
+                    url: 'http://localhost:8080/jogo/listar',
+                    method: 'GET',
+                    success: function (jogos) {
+                        const tbody = $('#tabelaJogo tbody');
+                        tbody.empty();
+                        jogos.forEach(jogo => {
+                            tbody.append(`
+                                <tr data-id="${jogo.idJogo}">
+                                    <td>${jogo.idJogo}</td>
+                                    <td contenteditable="true">${jogo.nomeJogo}</td>
+                                    <td contenteditable="true">${jogo.valorJogo}</td>
+                                    <td contenteditable="true">${jogo.generoJogo}</td>
+                                    <td contenteditable="true">${jogo.clasEtariaJogo}</td>
+                                    <td><button class="btnAtualizar">Atualizar</button></td>
+                                    <td><button class="btnExcluir">Excluir</button></td>
+                                </tr>
+                            `);
+                        });
+                    },
+                    error: function () {
+                        alert('Erro ao carregar os jogos.');
+                    }
+                });
+            }
+
+            // Função de atualização para todas as tabelas
+            $(document).on('click', '.btnAtualizar', function () {
+                const linha = $(this).closest('tr');
+                const id = linha.data('id');
+                const tabelaId = $(this).closest('table').attr('id');
+
+                let data = {};
+                let url = '';
+
+                if (tabelaId === 'tabelaCliente') {
+                    data = {
+                        nomeCliente: linha.find('td:nth-child(2)').text(),
+                        idadeCliente: linha.find('td:nth-child(3)').text(),
+                        cpfCliente: linha.find('td:nth-child(4)').text(),
+                        telefoneCliente: linha.find('td:nth-child(5)').text(),
+                        emailCliente: linha.find('td:nth-child(6)').text()
+                    };
+                    url = `http://localhost:8080/cliente/atualizar/${id}`;
+                } else if (tabelaId === 'tabelaVendedor') {
+                    data = {
+                        nomeVendedor: linha.find('td:nth-child(2)').text(),
+                        idadeVendedor: linha.find('td:nth-child(3)').text(),
+                        cpfVendedor: linha.find('td:nth-child(4)').text(),
+                        valorHora: linha.find('td:nth-child(5)').text(),
+                        horasTrabalhadas: linha.find('td:nth-child(6)').text()
+                    };
+                    url = `http://localhost:8080/vendedor/atualizar/${id}`;
+                } else if (tabelaId === 'tabelaJogo') {
+                    data = {
+                        nomeJogo: linha.find('td:nth-child(2)').text(),
+                        valorJogo: linha.find('td:nth-child(3)').text(),
+                        generoJogo: linha.find('td:nth-child(4)').text(),
+                        clasEtariaJogo: linha.find('td:nth-child(5)').text()
+                    };
+                    url = `http://localhost:8080/jogo/atualizar/${id}`;
+                }
+
+                $.ajax({
+                    url: url,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function () {
+                        alert('Atualização realizada com sucesso!');
+                        if (tabelaId === 'tabelaCliente')
+                            carregarClientes();
+                        if (tabelaId === 'tabelaVendedor')
+                            carregarVendedores();
+                        if (tabelaId === 'tabelaJogo')
+                            carregarJogos();
+                    },
+                    error: function () {
+                        alert('Erro ao atualizar.');
+                    }
+                });
+            });
+
+            // Carregar os dados ao abrir a página
+            $(document).ready(function () {
+                carregarClientes();
+                carregarVendedores();
+                carregarJogos();
+            });
+        </script>
     </body>
-    </html>
+</html>
