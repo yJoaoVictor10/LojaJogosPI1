@@ -195,18 +195,18 @@
 
                 if (tabelaId === 'tabelaCliente') {
                     data = {
-                        nomeCliente: linha.find('td:nth-child(2)').text(),
-                        idadeCliente: linha.find('td:nth-child(3)').text(),
-                        cpfCliente: linha.find('td:nth-child(4)').text(),
-                        telefoneCliente: linha.find('td:nth-child(5)').text(),
-                        emailCliente: linha.find('td:nth-child(6)').text()
+                        nomeCli: linha.find('td:nth-child(2)').text(),
+                        idadeCli: linha.find('td:nth-child(3)').text(),
+                        cpfCli: linha.find('td:nth-child(4)').text(),
+                        telefoneCli: linha.find('td:nth-child(5)').text(),
+                        emailCli: linha.find('td:nth-child(6)').text()
                     };
                     url = `http://localhost:8080/cliente/atualizar/${id}`;
                 } else if (tabelaId === 'tabelaVendedor') {
                     data = {
-                        nomeVendedor: linha.find('td:nth-child(2)').text(),
-                        idadeVendedor: linha.find('td:nth-child(3)').text(),
-                        cpfVendedor: linha.find('td:nth-child(4)').text(),
+                        nomeVend: linha.find('td:nth-child(2)').text(),
+                        idadeVend: linha.find('td:nth-child(3)').text(),
+                        cpfVend: linha.find('td:nth-child(4)').text(),
                         valorHora: linha.find('td:nth-child(5)').text(),
                         horasTrabalhadas: linha.find('td:nth-child(6)').text()
                     };
