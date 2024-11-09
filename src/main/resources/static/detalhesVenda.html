@@ -118,7 +118,6 @@
                                     <td contenteditable="true">${cliente.telefoneCli}</td>
                                     <td contenteditable="true">${cliente.emailCli}</td>
                                     <td><button class="btnAtualizar">Atualizar</button></td>
-                                    <td><button class="btnExcluir">Excluir</button></td>
                                 </tr>
                             `);
                         });
@@ -139,8 +138,8 @@
                         tbody.empty();
                         vendedores.forEach(vendedor => {
                             tbody.append(`
-                                <tr data-id="${vendedor.id}">
-                                    <td>${vendedor.id}</td>
+                                <tr data-id="${vendedor.idVend}">
+                                    <td>${vendedor.idVend}</td>
                                     <td contenteditable="true">${vendedor.nomeVend}</td>
                                     <td contenteditable="true">${vendedor.idadeVend}</td>
                                     <td contenteditable="true">${vendedor.cpfVend}</td>
